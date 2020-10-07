@@ -34,7 +34,7 @@ public class ChatPrivDAO {
         return listaChatId;
     }
     public List<ChatPriv> listChatToken (int id) {
-        String query = "SELECT top1 * from GRUPOn5.dbo.chatPriv where token = "+id;
+        String query = "SELECT top 1 * from GRUPOn5.dbo.chatPriv where token = "+id;
         List<ChatPriv> listaChatId = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(ChatPriv.class));
         return listaChatId;
     }

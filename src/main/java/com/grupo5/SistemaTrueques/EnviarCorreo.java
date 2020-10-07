@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
@@ -46,7 +47,7 @@ public class EnviarCorreo {
             me.printStackTrace();   //Si se produce un error
         }
     }
-    public void enviarSuscripcionAtodos(String destinatario, String asunto, String cuerpo) {
+    public void enviarSuscripcionAtodos(String destinatario, String asunto, String cuerpo) throws AddressException {
         // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
         String remitente = "lostruequegalaxia";  //Para la dirección nomcuenta@gmail.com
         String clave = "galaxyprogramer";
@@ -63,10 +64,18 @@ public class EnviarCorreo {
         MimeMessage message = new MimeMessage(session);
 
 
+        String[] recipientList = destinatario.split(",");
+        InternetAddress[] recipientAddress = new InternetAddress[recipientList.length];
+        int counter = 0;
+        for (String recipient : recipientList) {
+            recipientAddress[counter] = new InternetAddress(recipient.trim());
+            counter++;
+        }
+
 
         try {
             message.setFrom(new InternetAddress(remitente));
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(destinatario));   //Se podrían añadir varios de la misma manera
+            message.addRecipients(Message.RecipientType.TO,(recipientAddress));   //Se podrían añadir varios de la misma manera
             message.setSubject(asunto);
             message.setContent(cuerpo,
                     "text/html");

@@ -31,8 +31,8 @@ public class ProductoDAO {
     }
 
     public int crearProducto (Producto newProducto) {
-        String query = "INSERT into producto (nombre,descripcion ,categoria ,fechaPublicacion,uso ,imagen ,valorReferencia ,ubicacion, subcategoria)  values (?,?,?,?,?,?,?,?,?)";
-        int productos = jdbcTemplate.update(query,newProducto.getNombre(),newProducto.getDescripcion(),newProducto.getCategoria(),newProducto.getFechaPublicacion(),newProducto.getUso(),newProducto.getImagen(),newProducto.getValorReferencia(),newProducto.getUbicacion(),newProducto.getSubcategoria());
+        String query = "INSERT into producto (nombre,descripcion ,categoria ,fechaPublicacion,uso ,imagen ,valorReferencia ,ubicacion, subcategoria, id_usuario)  values (?,?,?,?,?,?,?,?,?,?)";
+        int productos = jdbcTemplate.update(query,newProducto.getNombre(),newProducto.getDescripcion(),newProducto.getCategoria(),newProducto.getFechaPublicacion(),newProducto.getUso(),newProducto.getImagen(),newProducto.getValorReferencia(),newProducto.getUbicacion(),newProducto.getSubcategoria(),newProducto.getId_usuario());
         return productos;
     }
 
@@ -51,7 +51,7 @@ public class ProductoDAO {
 
     public List<Producto> findNameProductos ( String nombre ){
         //"select * FROM producto WHERE nombre like '%'";
-        String sqlFind = "select * FROM producto WHERE nombre like '"+nombre+"%' or categoria like '"+nombre+"%' or subcategoria like '"+nombre+"%'" ;
+        String sqlFind = "select * FROM producto WHERE nombre like '%"+nombre+"%' or categoria like '%"+nombre+"%' or subcategoria like '%"+nombre+"%'" ;
         return jdbcTemplate.query(sqlFind, BeanPropertyRowMapper.newInstance(Producto.class));
     }
     public Producto findIdProductos ( int id){
